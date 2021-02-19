@@ -1,1 +1,1 @@
-FLASK_APP=flaskr FLASK_ENV=development flask run
+FLASK_APP=powerplant FLASK_ENV=development poetry run flask run --host 127.0.0.1 --port 8888
