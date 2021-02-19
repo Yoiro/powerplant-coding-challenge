@@ -22,4 +22,4 @@ def compute_production_plan():
         return jsonify(response), 200
     # This is terrible, don't do this at home
     except Exception as e:
-        return jsonify(message=f"Something went wrong: {e.__class__}"), 500
+        return jsonify(message=f"Something went wrong"), 500
