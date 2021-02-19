@@ -4,7 +4,6 @@ from flask import Blueprint, request, current_app, jsonify, Response
 
 from powerplant.network import Network
 
-
 bp_productionplan = Blueprint("productionplan", __name__, url_prefix="/productionplan")
 
 @bp_productionplan.route('', methods=["POST"])
@@ -26,6 +25,9 @@ def compute_production_plan():
         current_app.logger.debug(f"answered {response}")
         return jsonify(response), 200
     # This is terrible, don't do this at home
+    except IndexError as e:
+        current_app.logger.error("Couldn't find a solution to the problem")
+        return jsonify(message=f"Couldn't find a solution to the problem"), 202
     except Exception as e:
         current_app.logger.error("Unhandled exception happened (more information below).")
         current_app.logger.error(f"{type(e).__name__}: {e}")
