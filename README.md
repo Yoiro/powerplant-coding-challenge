@@ -40,6 +40,8 @@ NB: all these scripts expose the API on the port 8888.
 Please be careful that the unit tests will only run if you installed the development dependencies (meaning that you had to run `poetry` without the
 `--no-dev` argument).
 
+Moreover, you'll need to boot the server up in another terminal (see Running the development server above) for the unit tests to run.
+
 If you want to run the tests, just enter the command
 
 ```
