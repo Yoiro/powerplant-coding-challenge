@@ -17,7 +17,7 @@ def compute_production_plan():
     if request.json == {}:
         current_app.logger.warning("Tried to run a simulation without any data")
         return jsonify(message="Please provide a non-empty JSON object"), 400
-    if request.json["load"] < 0:
+    if request.json.get("load", -1) < 0:
         current_app.logger.warning("Tried to specify a negative load")
         return jsonify(message="Please provide a positive number as the target load"), 400
     try:
