@@ -20,7 +20,7 @@ class PowerPlant:
         self.produced_power = 0
 
     def __str__(self):
-        return f"{self.name}: {self.type}"
+        return f"{self.name}: {self.type}, power parameters: {self.pmin} - {self.pmax} / {self.efficiency}\nproduced: {self.produced_power}"
 
     def __repr__(self):
         return f"{self.name}"
@@ -60,6 +60,7 @@ class Network:
         plant_count = 0
         while load != self.load:
             merit_order = self.define_merit_order()
+            current_app.logger.debug(f"merit_order: {merit_order}")
             current_plant = self.powerplants[merit_order[plant_count][0]]
             multiplicator = 1
             if current_plant.type == "windturbine":
@@ -77,6 +78,7 @@ class Network:
                     continue
             current_plant.produced_power = round(produced_power, 1)
             load += current_plant.produced_power
+            current_app.logger.debug(f"current load on network is {load}")
             # Increment the counter in order to get the next plant
             plant_count += 1
             self.activated_plants.append(current_plant)
@@ -102,5 +104,8 @@ class Network:
 
         for plant in payload["powerplants"]:
             network.powerplants.append(PowerPlant(**plant))
+
+        current_app.logger.info("Loaded new network")
+        current_app.logger.debug(network)
 
         return network
