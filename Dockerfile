@@ -1,22 +1,29 @@
-FROM python:alpine
+FROM python:slim
 
-# Install poetry
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - \
- && mkdir /app \
- && useradd -G gunicorn
+ENV FLASK_ENV=prod \
+    FLASK_APP=/app/powerplant
 
+RUN mkdir /app
 WORKDIR /app
 
-ADD powerplant/ /app/powerplant/
-ADD wsgi.py /app/wsgi.py
-ADD poetry.lock /app/poetry.lock
+# Install poetry
+RUN pip install poetry \
+ && useradd --create-home -s /bin/bash gunicorn
 
-RUN poetry install \
- && rm /app/poetry.lock \
- && chown -r /app gunicorn
- && chmod -R 440 /app
+COPY poetry.lock pyproject.toml wsgi.py README.md config.py /app/
+
+RUN poetry config virtualenvs.create false \
+ &&poetry install \
+ && poetry install --no-dev
+
+COPY powerplant /app/powerplant
+
+RUN chown -R gunicorn /app \
+ && find /app -type f -print0 | xargs -0 chmod 644
+
+EXPOSE 8888
 
 USER gunicorn
 
 ENTRYPOINT ["poetry"]
-CMD ["run", "gunicorn", "--bind", "0.0.0.0:5000", "wsgi:app"]
+CMD ["run", "gunicorn", "-w", "4", "-b", "0.0.0.0:8888", "powerplant:create_app()"]
