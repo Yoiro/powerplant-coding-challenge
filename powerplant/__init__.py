@@ -15,8 +15,10 @@ def create_app():
     app.config.from_mapping(
         SECRET_KEY='dev',
     )
+
+    env = os.getenv("FLASK_ENV") or "prd"
     
-    if os.environ["FLASK_ENV"] == "dev":
+    if env in ["dev", "development", "DEV", "DEVELOPMENT"]:
         app.config.from_object('config.DevelopmentConfig')
     else:
         app.config.from_object('config.Config')
