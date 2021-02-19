@@ -3,7 +3,7 @@ import requests
 from test.helpers import *
 from test.fixtures import *
 
-__PRODUCTION_PLAN_URI = "http://localhost:8888/productionplan/"
+__PRODUCTION_PLAN_URI = "http://127.0.0.1:8888/productionplan/"
 
 def test_windy_input(windy):
     r = requests.post(f"{__PRODUCTION_PLAN_URI}", json=windy)
