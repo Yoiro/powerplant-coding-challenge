@@ -60,7 +60,6 @@ class Network:
         plant_count = 0
         while load != self.load:
             merit_order = self.define_merit_order()
-            current_app.logger.debug(merit_order)
             current_plant = self.powerplants[merit_order[plant_count][0]]
             multiplicator = 1
             if current_plant.type == "windturbine":
@@ -80,8 +79,6 @@ class Network:
             load += current_plant.produced_power
             # Increment the counter in order to get the next plant
             plant_count += 1
-            current_app.logger.debug(f"load {plant_count} = {load}")
-            current_app.logger.debug(f"target load = {self.load} => {self.load == load}")
             self.activated_plants.append(current_plant)
 
     def create_response(self):
