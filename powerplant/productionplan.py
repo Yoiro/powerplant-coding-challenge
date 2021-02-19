@@ -28,5 +28,5 @@ def compute_production_plan():
     # This is terrible, don't do this at home
     except Exception as e:
         current_app.logger.error("Unhandled exception happened (more information below).")
-        current_app.logger.error(e)
+        current_app.logger.error(f"{type(e).__name__}: {e}")
         return jsonify(message=f"Something went wrong"), 500
