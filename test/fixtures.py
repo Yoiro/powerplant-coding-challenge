@@ -6,7 +6,8 @@ import pytest
 __all__ = [
     "windy",
     "no_wind",
-    "high_load"
+    "high_load",
+    "all_load"
 ]
 
 __TEST_DIR = Path(__file__).parents[0]
@@ -24,4 +25,9 @@ def no_wind():
 @pytest.fixture
 def high_load():
     payload = __TEST_DIR / "mocks" / "payload3.json"
+    return json.load(open(payload))
+
+@pytest.fixture
+def all_load():
+    payload = __TEST_DIR / "mocks" / "payload4.json"
     return json.load(open(payload))

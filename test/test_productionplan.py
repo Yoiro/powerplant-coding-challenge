@@ -31,3 +31,7 @@ def test_none_payload():
 def test_missing_keys():
     r = requests.post(f"{__PRODUCTION_PLAN_URI}", json={"load": 0})
     assert r.status_code == 500
+
+def test_all_load(all_load):
+    r = requests.post(f"{__PRODUCTION_PLAN_URI}", json=all_load)
+    assert r.status_code == 202
