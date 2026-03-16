@@ -25,16 +25,20 @@ They both use the same algorithm to setup the merit-order: Wind Turbines are act
 
 `LPSolver` is an attempt at using linear programming in order to minimize the production cost. The used model is the following:
 
+
+We want to minimize the cost of production of each plant, taking the price of generating CO2 into account. The i * 1^-6 term is used in order to ensure that all plants are activated in merit order by having low to no incidence on the final result
 ```
-# We want to minimize the cost of production of each plant, taking the price of generating CO2 into account. The i * 10^-6 term is used in order to ensure that all plants are activated in merit order by having low to no incidence on the final result
+min Z = S(p_i * cost_i + i * 1^-6) for i in len(plants) + S(cost_co2 * 0.3 * p_j) for j in len(gasfired_plants)
+```
 
-min Z = S(p_i * cost_i + i * 10^-6) for i in len(plants) + S(cost_co2 * 0.3 * p_j) for j in len(gasfired_plants)
+**Constraints:**  
+We want to ensure that the power produced by a plant is comprised between its pmin and pmax
+```
+up_i * pmin_i <= p_i <= up_i * pmax_i for i in len(plants)
+```
 
-Constraints:
-# We want to ensure that the power produced by a plant is comprised between its pmin and pmax
-up_i * pmin_i <= p_i <= up_i * pmax_i
-
-# The sum of the production of all plants must be equal to the required load.
+The sum of the production of all plants must be equal to the required load.
+```
 S(p_i) = load for i in len(plants)
 ```
 
