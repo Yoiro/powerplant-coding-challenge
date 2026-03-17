@@ -43,14 +43,15 @@ class Planner:
         logger.debug("Plants sorted by cost", plants=plants)
         return plants
 
-    def solve(self) -> list[ProductionPlan]:
+    async def solve(self) -> list[ProductionPlan]:
         """
         Calls the underlying solver to solve the problem. 
         The plants are first enriched with their cost and sorted by cost.
         """
         self.add_cost_to_plants()
         plants = self.sort_plants_by_cost()
-        return self._solver.solve(plants, self.costs, self.load)
+        result = await self._solver.solve(plants, self.costs, self.load)
+        return result
 
 
 def create_model(forecast: Forecast, solver = None) -> Planner:

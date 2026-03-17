@@ -11,7 +11,7 @@ class NaiveBacktrackingSolver(AbstractSolver):
     """
     Backtracking solver based on a greedy algorithm.
     """
-    def solve(self, plants: list[PowerPlant], costs: Fuels, load: int) -> list[ProductionPlan]:
+    async def solve(self, plants: list[PowerPlant], costs: Fuels, load: int) -> list[ProductionPlan]:
         """
         Solves the power plant scheduling problem using a greedy backtracking algorithm.
         This solver works as follows:

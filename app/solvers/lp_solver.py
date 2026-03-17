@@ -10,7 +10,7 @@ class LPSolver(AbstractSolver):
     """
     Linear programming solver based on PuLP library. Uses their default COIN-OR CBC solver.
     """
-    def solve(self, plants: list[PowerPlant], costs: Fuels, load: int) -> list[ProductionPlan]:
+    async def solve(self, plants: list[PowerPlant], costs: Fuels, load: int) -> list[ProductionPlan]:
         """
         Solves the power plant scheduling problem using linear programming.
         For more information on the generated variables, please refer to `_generate_variables`.

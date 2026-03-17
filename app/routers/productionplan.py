@@ -17,12 +17,12 @@ productionplan_router = APIRouter(
 )
 
 
-@productionplan_router.post("/")
-def production_plan(forecast: Forecast, solver: str | None = None) -> list[ProductionPlan]:
+@productionplan_router.post("")
+async def production_plan(forecast: Forecast, solver: str | None = None) -> list[ProductionPlan]:
     logger.debug("Production plan request received", forecast=forecast)
     try:
         planner = create_model(forecast, solver)
-        result = planner.solve()
+        result = await planner.solve()
     except Exception as e:
         logger.error(e)
         raise HTTPException(status_code=500, detail="Internal Server Error")
