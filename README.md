@@ -23,7 +23,7 @@ They both use the same algorithm to set up the merit-order: Wind Turbines are ac
 
 We want to minimize the cost of production of each plant, taking the price of generating CO2 into account.
 > [!TIP]
-> The `i * 1e-6` term is used in order to ensure that all plants are activated in merit order by having low to no incidence on the final result
+> The `i * 1e-6` term is added to the cost of each plant in order to ensure that a unique solution is found given a specific input, thus ensuring reproducibility and determinism.
 ```
 min Z = Σ[(p_i * cost_i + i * 1e-6) for i in plants] + Σ[(cost_co2 * 0.3 * p_j) for j in gasfired_plants]
 ```
@@ -114,7 +114,7 @@ app
 ## Current limitations
 * The project only supports three types of powerplants (windturbine, gasfired and turbojet). More may be added when needed.
 
-* We currently don't have the choice of the solver used by the PuLP library, for the LPSolver.
+* When using the LPSolver, we don't have the choice of the underlying solver used by the PuLP library
 
 * Basic logging is implemented (via structlog), but only to `stdout`. 
 
