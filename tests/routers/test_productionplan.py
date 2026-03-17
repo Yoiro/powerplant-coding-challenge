@@ -1,5 +1,6 @@
 import json
 import pytest
+from pathlib import Path
 
 from fastapi.testclient import TestClient
 
@@ -8,37 +9,43 @@ from app.main import app
 
 @pytest.fixture
 def payload1():
-    with open("tests/payloads/payload1.json", "r") as f:
+    with open(Path(__file__).parent.parent / "payloads" / "payload1.json", "r") as f:
         return json.load(f)
 
 
 @pytest.fixture
 def payload2():
-    with open("tests/payloads/payload2.json", "r") as f:
+    with open(Path(__file__).parent.parent / "payloads" / "payload2.json", "r") as f:
         return json.load(f)
 
 
 @pytest.fixture
 def payload3():
-    with open("tests/payloads/payload3.json", "r") as f:
+    with open(Path(__file__).parent.parent / "payloads" / "payload3.json", "r") as f:
+        return json.load(f)
+
+
+@pytest.fixture
+def payload4():
+    with open(Path(__file__).parent.parent / "payloads" / "payload4.json") as f:
         return json.load(f)
 
 
 @pytest.fixture
 def response1():
-    with open("tests/answers/response1.json", "r") as f:
+    with open(Path(__file__).parent.parent / "answers" / "response1.json", "r") as f:
         return json.load(f)
 
 
 @pytest.fixture
 def response2():
-    with open("tests/answers/response2.json", "r") as f:
+    with open(Path(__file__).parent.parent / "answers" / "response2.json", "r") as f:
         return json.load(f)
 
 
 @pytest.fixture
 def response3():
-    with open("tests/answers/response3.json", "r") as f:
+    with open(Path(__file__).parent.parent / "answers" / "response3.json", "r") as f:
         return json.load(f)
 
 
@@ -87,3 +94,8 @@ def test_production_plan_payload3_lp(client, payload3, response3):
     assert response.status_code == 200
     assert response.json() == response3
     assert sum(p["p"] for p in response.json()) == payload3["load"]
+
+
+def test_production_plan_payload4(client, payload4):
+    response = client.post("/productionplan", json=payload4)
+    assert response.status_code == 422
