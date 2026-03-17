@@ -12,7 +12,6 @@ productionplan_router = APIRouter(
     tags=["Production Plan"],
     responses={
         500: {"description": "Internal Server Error"},
-        400: {"description": "Bad Request"}
     }
 )
 
