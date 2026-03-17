@@ -1,10 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.schemas.powerplant import PowerPlant
 from app.schemas.fuels import Fuels
 
 
 class Forecast(BaseModel):
-    load: int
+    load: int = Field(gt=0)
     fuels: Fuels
-    powerplants: list[PowerPlant]
+    powerplants: list[PowerPlant] = Field(min_length=1)
