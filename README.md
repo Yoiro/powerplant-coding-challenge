@@ -28,7 +28,7 @@ We want to minimize the cost of production of each plant, taking the price of ge
 min Z = Σ[(p_i * cost_i + i * 1e-6) for i in plants] + Σ[(cost_co2 * 0.3 * p_j) for j in gasfired_plants]
 ```
 
-**Constraints:**
+**Constraints:**  
 We want to ensure that the power produced by a plant is comprised between its pmin and pmax
 ```
 up_i * pmin_i <= p_i <= up_i * pmax_i for i in plants
