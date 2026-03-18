@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   build:
-    name: Set up python
+    name: Test Powerplant-coding-challenge application
 
     runs-on: ubuntu-latest
 
@@ -30,15 +30,15 @@ jobs:
         version: "0.10.7"
     - name: Install dependencies
       run: uv sync
-    - name: Run Black as formatter
+    - name: Run Black
       run: uv run black {app,tests}
     - name: Run isort
       run: uv run isort {app,tests}
-    - name: Lint with flake8
+    - name: Run flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
         uv run flake8 {app,tests} --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         uv run flake8 {app,tests} --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Unit tests with pytest
+    - name: Run pytest
       run: uv run pytest
