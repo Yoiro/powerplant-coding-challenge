@@ -30,6 +30,10 @@ jobs:
         version: "0.10.7"
     - name: Install dependencies
       run: uv sync
+    - name: Run Black as formatter
+      run: uv run black {app,tests}
+    - name: Run isort
+      run: uv run isort {app,tests}
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
