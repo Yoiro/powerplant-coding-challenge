@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from .routers import productionplan_router, health_router
+from .routers import health_router, productionplan_router
 
 app = FastAPI()
 

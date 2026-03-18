@@ -26,7 +26,7 @@ def test_add_cost_to_plants(planner):
         "gasfiredsomewhatsmaller": 13.4 / 0.37,
         "tj1": 50.8 / 0.3,
         "windpark1": 0,
-        "windpark2": 0
+        "windpark2": 0,
     }
     for plant in planner.plants:
         assert plant.cost == expected_costs[plant.name]
@@ -41,7 +41,7 @@ def test_sort_plants_by_cost(planner):
         "gasfiredbig1",
         "gasfiredbig2",
         "gasfiredsomewhatsmaller",
-        "tj1"
+        "tj1",
     ]
     for i, plant in enumerate(sorted_plants):
         assert plant.name == expected_order[i]

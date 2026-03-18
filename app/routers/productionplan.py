@@ -2,9 +2,8 @@ import structlog
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
 
-from app.schemas import Forecast, ProductionPlan
 from app.planner import create_model
-
+from app.schemas import Forecast, ProductionPlan
 
 logger = structlog.get_logger()
 productionplan_router = APIRouter(
@@ -12,12 +11,14 @@ productionplan_router = APIRouter(
     tags=["Production Plan"],
     responses={
         500: {"description": "Internal Server Error"},
-    }
+    },
 )
 
 
 @productionplan_router.post("")
-async def production_plan(forecast: Forecast, solver: str | None = None) -> list[ProductionPlan]:
+async def production_plan(
+    forecast: Forecast, solver: str | None = None
+) -> list[ProductionPlan]:
     logger.debug("Production plan request received", forecast=forecast)
     try:
         planner = create_model(forecast, solver)
@@ -28,4 +29,3 @@ async def production_plan(forecast: Forecast, solver: str | None = None) -> list
     else:
         logger.info("Production plan computed", result=result)
         return result
-

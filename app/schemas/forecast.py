@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 
-from app.schemas.powerplant import PowerPlant
 from app.schemas.fuels import Fuels
+from app.schemas.powerplant import PowerPlant
 
 
 class Forecast(BaseModel):

@@ -1,7 +1,7 @@
 import structlog
 
-from app.schemas import PowerPlant, ProductionPlan, Fuels
 from app.enums import PlantType
+from app.schemas import Fuels, PowerPlant, ProductionPlan
 from app.solvers.abstract_solver import AbstractSolver
 
 logger = structlog.get_logger()
@@ -11,7 +11,10 @@ class NaiveBacktrackingSolver(AbstractSolver):
     """
     Backtracking solver based on a greedy algorithm.
     """
-    async def solve(self, plants: list[PowerPlant], costs: Fuels, load: int) -> list[ProductionPlan]:
+
+    async def solve(
+        self, plants: list[PowerPlant], costs: Fuels, load: int
+    ) -> list[ProductionPlan]:
         """
         Solves the power plant scheduling problem using a greedy backtracking algorithm.
         This solver works as follows:
@@ -40,23 +43,31 @@ class NaiveBacktrackingSolver(AbstractSolver):
                 result.append(
                     ProductionPlan(
                         name=plant.name,
-                        p=round(min(is_windy * plant.pmax * costs.wind / 100, remaining_load), 1)
+                        p=round(
+                            min(
+                                is_windy * plant.pmax * costs.wind / 100, remaining_load
+                            ),
+                            1,
+                        ),
                     )
                 )
             elif plant.pmin > 0:
                 result.append(
                     ProductionPlan(
-                        name=plant.name,
-                        p=round(min(plant.pmax, remaining_load), 1)
+                        name=plant.name, p=round(min(plant.pmax, remaining_load), 1)
                     )
                 )
             else:
                 result.append(
                     ProductionPlan(
-                        name=plant.name,
-                        p=round(min(plant.pmax, remaining_load), 1)
+                        name=plant.name, p=round(min(plant.pmax, remaining_load), 1)
                     )
                 )
             remaining_load -= result[-1].p
-            logger.debug("Processed plant", plant=plant, remaining_load=remaining_load, assigned_production=result[-1].p)
+            logger.debug(
+                "Processed plant",
+                plant=plant,
+                remaining_load=remaining_load,
+                assigned_production=result[-1].p,
+            )
         return result
