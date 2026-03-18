@@ -5,6 +5,8 @@ from app.enums import PlantType
 from app.schemas import Fuels, PowerPlant, ProductionPlan
 from app.solvers.abstract_solver import AbstractSolver
 
+logger = structlog.get_logger()
+
 
 class LPSolver(AbstractSolver):
     """
@@ -38,6 +40,8 @@ class LPSolver(AbstractSolver):
             result.append(
                 ProductionPlan(name=plant.name, p=variables[f"p_{plant.name}"].varValue)
             )
+
+        logger.info("Production plan generated", production_plan=result)
 
         return result
 
@@ -77,6 +81,8 @@ class LPSolver(AbstractSolver):
             variables[f"p_{plant.name}"] = pulp.LpVariable(
                 f"p_{plant.name}", lowBound=0, upBound=plant.pmax, cat=pulp.LpContinuous
             )
+
+        logger.debug("Generated variables for LP model", variables=variables)
 
         return variables
 
@@ -135,5 +141,7 @@ class LPSolver(AbstractSolver):
             pulp.lpSum([variables[f"p_{plant.name}"] for plant in plants]) == load,
             "Total Production to match",
         )
+
+        logger.debug("Generated LP problem", problem=problem)
 
         return problem
