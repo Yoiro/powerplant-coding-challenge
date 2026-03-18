@@ -32,6 +32,7 @@ jobs:
       run: uv sync
   lint:
     name: Run Linter
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Lint with flake8
@@ -42,6 +43,7 @@ jobs:
         uv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
   test:
     name: Run tests
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Unit tests with pytest
